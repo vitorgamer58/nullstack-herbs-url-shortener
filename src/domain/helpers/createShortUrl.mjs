@@ -1,3 +1,5 @@
+import crypto from 'crypto'
+
 /**
  * Creates a shortened ID from a given long URL.
  *

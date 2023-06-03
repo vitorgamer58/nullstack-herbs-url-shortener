@@ -4,7 +4,6 @@
   "description": "",
   "author": "",
   "license": "ISC",
-  "type": "module",
   "devDependencies": {
     "@herbsjs/herbs-cli": "^2.18.2",
     "chai": "^4.3.7",
