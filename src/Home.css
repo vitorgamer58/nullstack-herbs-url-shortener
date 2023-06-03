@@ -35,6 +35,15 @@ img {
   width: 100%;
 }
 
+button {
+  background-color: #be185d;
+  color: #fff;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  border: 0;
+  cursor: pointer;
+}
+
 @media (max-width: 768px) {
   section {
     flex-wrap: wrap;

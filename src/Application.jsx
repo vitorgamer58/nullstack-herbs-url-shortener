@@ -23,7 +23,7 @@ class Application extends Nullstack {
     return (
       <body>
         <Head />
-        <Home route="/" greeting="Nulla-chan te dá as boas vindas!" />
+        <Home route="/" />
         <Short route="/short/:shortId" />
       </body>
     )
