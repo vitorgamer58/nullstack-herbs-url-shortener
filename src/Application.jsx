@@ -2,6 +2,7 @@ import Nullstack from 'nullstack'
 
 import './Application.css'
 import Home from './Home'
+import Short from './Short'
 
 class Application extends Nullstack {
 
@@ -23,6 +24,7 @@ class Application extends Nullstack {
       <body>
         <Head />
         <Home route="/" greeting="Nulla-chan te dá as boas vindas!" />
+        <Short route="/short/:shortId" />
       </body>
     )
   }

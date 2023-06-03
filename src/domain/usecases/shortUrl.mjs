@@ -13,6 +13,10 @@ const shortUrl = (injection) =>
       url: String,
     },
 
+    response: {
+      shortUrl: String,
+    },
+
     authorize: (_) => Ok(),
 
     setup: (ctx) => {
@@ -25,7 +29,7 @@ const shortUrl = (injection) =>
       const shortUrlEntity = new ShortUrlEntity()
 
       shortUrlEntity.id = Math.floor(Math.random() * 100000)
-      shortUrlEntity.url = url
+      shortUrlEntity.longUrl = url
 
       if (!shortUrlEntity.isValid()) {
         return Err.invalidEntity({
@@ -46,11 +50,12 @@ const shortUrl = (injection) =>
 
       const shortedId = createShortId(shortUrlEntity.url)
 
-      shortUrlEntity.shortUrl = `${baseURL}/${shortedId}`
+      shortUrlEntity.shortId = shortedId
 
       await urlsRepository.insert(shortUrlEntity)
 
-      ctx.ret = shortUrlEntity
+      ctx.ret.shortUrl = `${baseURL}/short/${shortedId}`
+
       return Ok()
     }),
   })

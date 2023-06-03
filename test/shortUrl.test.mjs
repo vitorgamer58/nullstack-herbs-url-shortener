@@ -29,4 +29,18 @@ describe('Teste', () => {
     expect(ucResponse.isOk).to.be.true
     expect(ucResponse.ok.shortUrl.startsWith('https://short.ly')).to.be.true
   })
+
+  it('Deve retornar invalidEntity se os parâmetros forem inválidos', async () => {
+    const usecase = shortUrl(defaultInjection)
+
+    const request = {
+      url: undefined,
+    }
+
+    await usecase.authorize()
+    const ucResponse = await usecase.run(request)
+
+    expect(ucResponse.isOk).to.be.false
+    expect(ucResponse.isInvalidEntityError).to.be.true
+  })
 })

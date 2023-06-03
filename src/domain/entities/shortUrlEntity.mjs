@@ -5,8 +5,8 @@ const { entity, id, field } = herbs
 
 const ShortUrlEntity = entity('ShortUrlEntity', {
   id: id(Number),
-  url: field(String, { validation: { presence: true } }),
-  shortUrl: field(String),
+  longUrl: field(String, { validation: { presence: true } }),
+  shortId: field(String),
 })
 
 herbarium.herbarium.entities.add(ShortUrlEntity, 'ShortUrlEntity')

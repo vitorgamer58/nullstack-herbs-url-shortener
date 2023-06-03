@@ -1,20 +1,16 @@
 import Nullstack from 'nullstack'
 
 import shortUrl from '../domain/usecases/shortUrl.mjs'
-import UrlsRepository from '../infra/repositories/urlsRepository.mjs'
 
 class ShortUrlComponent extends Nullstack {
 
   url = ""
   shortedUrl = ''
 
-  static async shortUrl({ secrets, url }) {
+  static async shortUrl({ url, urlsRepository, config }) {
     try {
-      const urlsRepository = new UrlsRepository(secrets.mongodbUri, secrets.databaseName)
       const injection = {
-        config: {
-          baseURL: secrets.baseUrl,
-        },
+        config,
         urlsRepository,
       }
 
