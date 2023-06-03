@@ -1,15 +1,17 @@
 import herbs from '@herbsjs/herbs'
 
-import ShortUrlRequest from '../entities/shortUrlRequest.mjs'
+import ShortUrlEntity from '../entities/shortUrlEntity.mjs'
 import { createShortId } from '../helpers/createShortUrl.mjs'
 
-const { Err, Ok, request, step, usecase } = herbs
+const { Err, Ok, step, usecase } = herbs
 
 const dependency = {}
 
 const shortUrl = (injection) =>
   usecase('Short an URL', {
-    request: request.from(ShortUrlRequest, { ignoreIds: true }),
+    request: {
+      url: String,
+    },
 
     authorize: (_) => Ok(),
 
@@ -19,35 +21,36 @@ const shortUrl = (injection) =>
     },
 
     'Verify the request': step((ctx) => {
-      const shortUrlRequest = ctx.req
+      const { url } = ctx.req
+      const shortUrlEntity = new ShortUrlEntity()
 
-      if (!shortUrlRequest.isValid()) {
+      shortUrlEntity.id = Math.floor(Math.random() * 100000)
+      shortUrlEntity.url = url
+
+      if (!shortUrlEntity.isValid()) {
         return Err.invalidEntity({
           message: 'invalid url',
-          payload: { entity: ShortUrlRequest },
-          cause: shortUrlRequest.errors,
+          payload: { entity: ShortUrlEntity },
+          cause: shortUrlEntity.errors,
         })
       }
+
+      ctx.data.shortUrlEntity = shortUrlEntity
       return Ok()
     }),
 
-    'Create the URL id and save in database': step((ctx) => {
-      const shortUrlRequest = ctx.req
+    'Create the URL id, save in database and return': step(async (ctx) => {
+      const { shortUrlEntity } = ctx.data
+      const { urlsRepository } = ctx.di
+      const { baseURL } = ctx.di.config
 
-      const shortedId = createShortId(shortUrlRequest.url, '')
+      const shortedId = createShortId(shortUrlEntity.url)
 
-      ctx.data.shortId = shortedId
-      return Ok()
-    }),
+      shortUrlEntity.shortUrl = `${baseURL}/${shortedId}`
 
-    'Return the shorted url': step((ctx) => {
-      const shortUrlRequest = ctx.req
-      const { shortId } = ctx.data
+      await urlsRepository.insert(shortUrlEntity)
 
-      shortUrlRequest.shortUrl = `dhdhsdssd/${shortId}`
-
-      ctx.ret = shortUrlRequest
-
+      ctx.ret = shortUrlEntity
       return Ok()
     }),
   })

@@ -19,6 +19,8 @@
   "dependencies": {
     "@herbsjs/aloe": "^2.2.1",
     "@herbsjs/herbarium": "^1.5.0",
-    "@herbsjs/herbs": "^2.0.0"
+    "@herbsjs/herbs": "^2.0.0",
+    "@herbsjs/herbs2mongo": "^4.0.0",
+    "mongodb": "^4.8.1"
   }
 }

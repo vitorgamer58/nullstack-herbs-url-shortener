@@ -1,20 +1,32 @@
+/* eslint-disable padded-blocks */
 import { expect } from 'chai'
 import { describe, it } from 'mocha'
 
-import ShortUrlRequest from '../src/domain/entities/shortUrlRequest.mjs'
 import shortUrl from '../src/domain/usecases/shortUrl.mjs'
 
 describe('Teste', () => {
-  it('Deve executar com sucesso', async () => {
-    const usecase = shortUrl()
+  const defaultInjection = {
+    config: {
+      baseURL: 'https://short.ly',
+    },
+    urlsRepository: new (class UserRepository {
+      insert(_) {
+        return true
+      }
+    })(),
+  }
 
-    const request = ShortUrlRequest.fromJSON({
+  it('Deve encurtar a URL com sucesso', async () => {
+    const usecase = shortUrl(defaultInjection)
+
+    const request = {
       url: 'www.google.com.br/teste',
-    })
+    }
 
     await usecase.authorize()
     const ucResponse = await usecase.run(request)
 
     expect(ucResponse.isOk).to.be.true
+    expect(ucResponse.ok.shortUrl.startsWith('https://short.ly')).to.be.true
   })
 })
