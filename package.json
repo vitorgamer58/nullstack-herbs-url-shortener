@@ -12,12 +12,10 @@
   },
   "scripts": {
     "start": "npx nullstack start",
-    "build": "npx nullstack build",
-    "test:herbs": "herbs spec",
+    "build": "npx nullstack build --mode=spa --output=web",
     "test": "mocha"
   },
   "dependencies": {
-    "@herbsjs/aloe": "^2.2.1",
     "@herbsjs/herbarium": "^1.5.0",
     "@herbsjs/herbs": "^2.0.0",
     "@herbsjs/herbs2mongo": "^4.0.0",
